@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <meta charset="UTF-8"> -->
+    <title>game_c_m</title>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v2.min.js?2.8.1"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="./createRiver.js"></script>
+    <script src="./createRiverCrossing.js"></script>
+    <script src="./startPlayer.js"></script>
+    <script src="./movePlayer.js"></script>
+    <script src="./var_global_init.js"></script>
+    <script src="./visualise_web.js"></script>
+</head>
+
+<body>
+
+<div id="mat_vis"></div>
+
+<script type="text/javascript">
+
+  //var size_map = 20;
+
+  //var map_fields = Math.pow(size_map,2);
+
+  var map_topology = Array(size_map).fill(0).map(()=>Array(size_map).fill(0));
+  var river_coord = Array(size_map).fill(0).map(()=>Array(2).fill(0));
+
+  // bridge_coord possibly not needed - check later
+  // var bridge_coord = Array(number_bridge).fill(0).map(()=>Array(2).fill(0));
+
+  var map_movement = Array(size_map).fill(1).map(()=>Array(size_map).fill(1));
+
+  var map_player = Array(size_map).fill(0).map(()=>Array(size_map).fill(0));
+
+  // size of the window in which river gets created
+  // even for even map size, uneven for uneven map size
+  var window_river = Math.round(perc_river*size_map);
+  if(size_map%2 == 0 && window_river%2 != 0){window_river -= 1;};
+  if(size_map%2 != 0 && window_river%2 == 0){window_river -= 1;};
+
+  createRiver(size_map,window_river);
+  createRiverCrossing(size_map,dist_bridge);
+
+  // starting position of the players
+  // var posPl = spawnPlayer(number_players,size_map,window_river+2,player_border);
+
+  // JUST FOR THE IMPLEMENTATION OF MOVEMENT - REMOVE AFTER !!!!!!
+  var posPl = spawnPlayerTEST(number_players,size_map,window_river+2,player_border);
+
+  posInit(posPl);
+
+  // movement of players
+  var tmp_loc_player = [4,6];
+  var index_player = map_player[tmp_loc_player[0]][tmp_loc_player[1]];
+
+  var tmp = possibleMove(size_map,tmp_loc_player,2);
+
+
+
+  //console.log(tmp_loc_player);
+  //console.log(map_player);
+  map_player[tmp_loc_player[0]][tmp_loc_player[1]] = 4;
+
+  var data = Array(10).fill(1).map(()=>Array(10).fill(1));
+
+  data[3][3] = 0;
+
+  plot_web_topology(map_topology);
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <meta charset="UTF-8"> -->
+    <title>App</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="./createMap.js"></script>
+    <script src="./externalFunctions.js"></script>
+    <script src="./determine_start_players.js"></script>
+
+</head>
+
+<body>
+
+<div id="map" style="width:600px;height:600px;"></div>
+
+<script type="text/javascript">
+
+  var max_val = 3; // just for plotting
+
+  var size_map = 20;
+  var index_river = 1/max_val;
+  var index_bridge = 2/max_val;
+  var index_plain = 0;
+  var player_start = 3/max_val;
+
+
+  var numPlayer = 3;
+
+
+  var percent_river = 0.2;
+  var percent_plain = 1-percent_river;
+
+  var number_bridge = 2;
+
+  var fields = Math.pow(size_map,2);
+
+  // var fields_river = Math.round(fields*percent_river);
+  // var percent_plain = fields - fields_river; // ensure correct number of fields
+
+  var map_topology = Array(size_map).fill(0).map(()=>Array(size_map).fill(0));
+  var river_coord = Array(size_map).fill(0).map(()=>Array(2).fill(0));
+  var bridge_coord = Array(number_bridge).fill(0).map(()=>Array(2).fill(0));
+
+  var map_movement = Array(size_map).fill(1).map(()=>Array(size_map).fill(1));
+
+  [map_topology,map_movement,river_coord,bridge_coord] = createMap(size_map)
+
+  var posPlayersStart = determine_start_position(numPlayer,size_map,map_movement)
+
+  for(i=0; i< numPlayer;i++){
+    tmp = posPlayersStart[i];
+    tmp1 = tmp[0]; tmp2 = tmp[1];
+    map_topology[tmp1][tmp2] = player_start;
+  }
+
+
+
+
+  // just for visualisation in the browser
+  Plot_Map = document.getElementById('map');
+
+  var colorscaleValue = [
+    [0, '#228B22'],
+    [1/max_val, '#00FFFF'],
+    [2/max_val, '#DEB887'],
+    [3/max_val, '#FF69B4'],
+    [4/max_val, '#DAA520']
+  ];
+  var data= [{
+    z: map_topology,
+    type: 'heatmap',
+    colorscale: colorscaleValue,
+    showscale: false
+  }];
+
+  Plotly.newPlot(Plot_Map, data);
+
+</script>
+
+
+</body>
+</html>
