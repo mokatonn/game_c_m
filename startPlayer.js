@@ -7,10 +7,10 @@ function spawnPlayer(players,s,w_r,p_b){
   var tmp;
   // if(players == 4){ // one in each quadrant
   // }else
-  if(players == 3){
+  if(players.length == 3){
     tmp = [0,1,2,3].sample();
     locPlayer.splice(tmp,1);
-  }else if(players == 2){
+  }else if(players.length == 2){
     tmp = [0,1,2,3].sample();
     locPlayer.splice(tmp,1);
     tmp = [0,1,2].sample();
@@ -146,10 +146,16 @@ function posInit(plOj){
     tmp = plOj[i].spawn;
     tmp2 = plOj[i].charset;
     map_player[tmp[0]][tmp[1]] = tmp2[0];
+    plOj[i].charset[0].position = [tmp[0],tmp[1]];
     map_player[tmp[0]][tmp[1]-1] = tmp2[1];
+    plOj[i].charset[1].position = [tmp[0],tmp[1]-1];
     map_player[tmp[0]][tmp[1]+1] = tmp2[2];
+    plOj[i].charset[2].position = [tmp[0],tmp[1]+1];
     map_player[tmp[0]-1][tmp[1]] = tmp2[3];
+    plOj[i].charset[3].position = [tmp[0]-1,tmp[1]];
     map_player[tmp[0]+1][tmp[1]] = tmp2[4];
+    plOj[i].charset[4].position = [tmp[0]+1,tmp[1]];
+
   }
 
 
