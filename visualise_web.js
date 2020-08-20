@@ -23,7 +23,7 @@ const defaultCharacters = [
     },
 ]
 
-const defaultMovements = [
+/*const defaultMovements = [
     { x: 3, y: 5, type: 'movement' },
     { x: 4, y: 5, type: 'movement' },
     { x: 5, y: 5, type: 'movement' },
@@ -32,6 +32,9 @@ const defaultMovements = [
     { x: 3, y: 7, type: 'movement' },
     { x: 4, y: 7, type: 'attack' },
     { x: 5, y: 7, type: 'movement' }
+]*/
+const defaultMovements = [
+    { x: 0, y: 0, type: 'movement' }
 ]
 
 function plot_web_topology(matrix, characters = defaultCharacters, movements = defaultMovements, options = defaultOptions){
@@ -66,7 +69,7 @@ var y = d3.scale.ordinal()
 
 var colorMap = d3.scale.linear()
     .domain([0, 1, 2, 3, 100])
-    .range(["green", "blue", "brown", "black", "yellow"]);
+    .range(["green", "blue", "brown", "black", "red"]);
 
 var row = svg.selectAll(".row")
     .data(matrix)
@@ -90,7 +93,7 @@ row.selectAll(".cell")
 const cellWidth = x(1)
 const cellHeight = y(1)
 
-movements.forEach(({ x: cx, y: cy, type }) => {
+movements.forEach(({ x: cy, y: cx, type }) => {
     const color = type === 'movement' ? 'white' : 'red'
     svg.append('circle')
         .attr('fill', color)
@@ -105,10 +108,11 @@ characters.forEach(character => {
         type,
         player
     } = character
-    const cx = x(position.x)
-    const cy = y(position.y)
+    const cx = x(position.y)
+    const cy = y(position.x)
     const node = type === 'Villager' ? svg.append('circle').attr('r', cellWidth/4).attr('cx', cx + cellWidth / 2).attr('cy', cy + cellHeight / 2)
         : type === 'Sumo' ? svg.append('circle').attr('r', cellWidth/3).attr('cx', cx + cellWidth / 2).attr('cy', cy + cellHeight / 2).attr('stroke-dasharray', '1,2')
+        : type === 'Knight' ? svg.append('ellipse').attr('rx', cellWidth /2).attr('ry', cellWidth/4).attr('cx', cx + cellWidth / 2).attr('cy', cy + cellHeight / 2).attr('stroke-dasharray', '1,2')
         : type === 'Witch' ? svg.append('path').attr('d', `M${cx+cellWidth/2},${cy + 5}l${cellWidth/2 - 2.5},${cellHeight - 10}h-${cellWidth - 5}Z`)
         : svg.append('rect').attr('x', cx - 5).attr('y', cy - 5).attr('width', 10).attr('height', 10)
 

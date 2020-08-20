@@ -1,38 +1,56 @@
-function possibleMove(s,pos,idxPl){
+function possibleMove(s,charObj){
   // function that returns a all possible movements of a player at position pos
 
-  var mat_move = Array(s).fill(0).map(()=>Array(s).fill(0));
+  var mat_move = [];
+  var tmp = charObj.position;
 
-  var x = pos[0]-1;
-  var y = pos[1]-1;
+  mat_move[0] = tmp;
+  mat_move[0].type = "current";
+  var x = charObj.position.x;
+  var y = charObj.position.y;
 
   if(x > 0 && x < s-2 && y > 0 && y < s-2){ // selected character is not at the border
-    for(j1=0;j1<=2;j1++){
-      for(j2=0;j2<=2;j2++){
+    //tmp = { x: x, y: y-1};
+    checkMoveAttack(tmp = { x: x, y: y-1},charObj);
+    if(tmp.type != "false"){
+      mat_move[1] = tmp;
+    }
 
-        if(map_movement[x + j1][y + j2] == 1 && map_player[x + j1][y + j2] != idxPl){
-          if(map_player[x + j1][y + j2] == 0){ // no enemy on this field
-            mat_move[x + j1][y + j2] = 1;
-            map_player[x + j1][y + j2] = 5;
-          }else{
-            mat_move[x + j1][y + j2] = 1;
-            map_player[x + j1][y + j2] = 6;
-          }
+    checkMoveAttack(tmp = { x: x, y: y+1},charObj);
+    if(tmp.type != "false"){
+      mat_move[2] = tmp;
+    }
 
-        }
-      }
+    checkMoveAttack(tmp = { x: x-1, y: y},charObj);
+    if(tmp.type != "false"){
+      mat_move[3] = tmp;
+    }
+
+    checkMoveAttack(tmp = { x: x+1, y: y},charObj);
+    if(tmp.type != "false"){
+      mat_move[4] = tmp;
     }
   }else{
     // implement cases if character is at border
   }
 
 
-  mat_move[x][y] = 1; // current position of selected character
+  //mat_move[x][y] = 1; // current position of selected character
 
   return mat_move;
 }
 
-
+function checkMoveAttack(posObj,charObj){
+  if(map_movement[posObj.x][posObj.y] == 1 && map_player[posObj.x][posObj.y].playerId != charObj.playerId){
+    if(map_player[posObj.x][posObj.y] == 0){ // no enemy in field
+      posObj.type = "movement";
+    }else{
+      posObj.type = "attack";
+    }
+  }else{
+      posObj.type = "false";
+  }
+}
 
 function getNeighbours(mat,i1,i2){
   // add corner etc!!

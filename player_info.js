@@ -7,7 +7,9 @@ function player_initialise(id,name,char){
   charset_special.gems = 0; // number of gems
   charset_special.inventory = []; // any other items
   charset_special.id = 100*id;
-  charset_special.position = [];
+  charset_special.player = name;
+  charset_special.playerId = id;
+  charset_special.position = {};
 
   var char_tmp = [];
   char_tmp[0] = charset_special;
@@ -18,7 +20,9 @@ function player_initialise(id,name,char){
     charset_default.gems = 0; // number of gems
     charset_default.inventory = []; // any other items
     charset_default.id = 100*id + 1 + i;
-    charset_default.position = [];
+    charset_default.position = {};
+    charset_default.playerId = id;
+    charset_default.player = name;
     char_tmp[i+1] = charset_default;
   }
 
@@ -26,7 +30,7 @@ function player_initialise(id,name,char){
   var player = {};
   player.id = id;
   player.name = name;
-  player.spawn = [];
+  player.spawn = {};
   player.charset = char_tmp;
 
   return player;
