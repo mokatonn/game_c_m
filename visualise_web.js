@@ -28,6 +28,7 @@ const defaultCharacters = [
     { x: 4, y: 5, type: 'movement' },
     { x: 5, y: 5, type: 'movement' },
     { x: 3, y: 6, type: 'movement' },
+    { x: 4, y: 6, type: 'current' },
     { x: 5, y: 6, type: 'movement' },
     { x: 3, y: 7, type: 'movement' },
     { x: 4, y: 7, type: 'attack' },
@@ -94,7 +95,9 @@ const cellWidth = x(1)
 const cellHeight = y(1)
 
 movements.forEach(({ x: cy, y: cx, type }) => {
-    const color = type === 'movement' ? 'white' : 'red'
+    const color = type === 'movement' ? 'white'
+        : type === 'attack' ? 'red'
+        : 'blue'
     svg.append('circle')
         .attr('fill', color)
         .attr('opacity', .3)
