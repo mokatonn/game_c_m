@@ -197,7 +197,10 @@ const {
 } = require('./var_global_init')
 const { plot_web_topology } = require('./visualise_web')
 
-window.main = function main () {
+const isInBrowser = typeof window !== 'undefined'
+const exportingObject = isInBrowser ? window : module.exports
+
+exportingObject.createMap = function createMap () {
   var p1 = player_initialise(1000,"CVPI","Sumo");
   var p2 = player_initialise(2000,"MKT","Witch");
   var p3 = player_initialise(3000,"SSA","Knight");
@@ -238,8 +241,16 @@ window.main = function main () {
 
   tmp_char.position = {x: mat_move[3].x, y: mat_move[3].y};
 
-  plot_web_topology(map_topology,char_obj);
   console.log(tmp_char.position)
+
+  return char_obj
+}
+
+if (isInBrowser) {
+  window.plot = function(char_obj){
+    console.log('plotting map')
+    plot_web_topology(map_topology,char_obj);
+  }
 }
 },{"./createRiver":1,"./createRiverCrossing":2,"./movePlayer":4,"./player_info":5,"./startPlayer":6,"./var_global_init":7,"./visualise_web":8}],4:[function(require,module,exports){
 const {

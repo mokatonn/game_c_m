@@ -3,13 +3,17 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-nati
 import Svg, { G } from 'react-native-svg'
 import { PanGestureHandler, PinchGestureHandler } from 'react-native-gesture-handler'
 import Map from './src/Map'
-import { map as pmap, movemap as m, characters_obj as characters } from './src/mona'
+// import { map as pmap, movemap as m, characters_obj as characters } from './src/mona'
+import { createMap } from './src/mona'
+import { map_topology } from './src/mona/var_global_init'
 
 const width = Math.round(Dimensions.get('window').width)
 const height = Math.round(Dimensions.get('window').height)
 // let x = width/2, y = height/2 - 100
 
-const map = pmap
+console.log(typeof createMap)
+
+const map = map_topology
 
 const movemap = map.map(row => row.map(cell => 0))
 
