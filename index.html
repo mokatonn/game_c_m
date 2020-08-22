@@ -7,13 +7,7 @@
     <meta charset="utf-8">
     <script src="https://d3js.org/d3.v2.min.js?2.8.1"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="./createRiver.js"></script>
-    <script src="./createRiverCrossing.js"></script>
-    <script src="./startPlayer.js"></script>
-    <script src="./movePlayer.js"></script>
-    <script src="./var_global_init.js"></script>
-    <script src="./visualise_web.js"></script>
-    <script src="./player_info.js"></script>
+    <script src="./browser/index.js"></script>
 </head>
 
 <body>
@@ -21,57 +15,7 @@
 <div id="mat_vis"></div>
 
 <script type="text/javascript">
-
-  var p1 = player_initialise(1000,"CVPI","Sumo");
-  var p2 = player_initialise(2000,"MKT","Witch");
-  var p3 = player_initialise(3000,"SSA","Knight");
-
-  var pl_obj = [p1,p2,p3]
-
-  var map_topology = Array(size_map).fill(0).map(()=>Array(size_map).fill(0));
-  var river_coord = Array(size_map).fill(0).map(()=>Array(2).fill(0));
-
-  var map_movement = Array(size_map).fill(1).map(()=>Array(size_map).fill(1));
-
-  var map_player = Array(size_map).fill(0).map(()=>Array(size_map).fill(0));
-
-  // size of the window in which river gets created
-  // even for even map size, uneven for uneven map size
-  var window_river = Math.round(perc_river*size_map);
-  if(size_map%2 == 0 && window_river%2 != 0){window_river -= 1;};
-  if(size_map%2 != 0 && window_river%2 == 0){window_river -= 1;};
-
-  createRiver(size_map,window_river);
-  createRiverCrossing(size_map,dist_bridge);
-
-  // starting position of the players
-  var posPl = spawnPlayerTEST(pl_obj,size_map,window_river+2,player_border);
-
-  posInit(pl_obj);
-
-  // movement of players
-  var char_obj = [];
-  var i;
-  var j;
-  for(i= 0; i < 3; i++){
-    for(j= 0; j < 5; j++){
-      char_obj.push(pl_obj[i].charset[j])
-    }
-  }
-
-  var tmp_char = char_obj[3];
-  console.log(tmp_char.position)
-
-  var mat_move = getPossibleMoves(tmp_char);
-  console.log(tmp_char.position)
-
-  plot_web_topology(map_topology,char_obj,mat_move);
-
-  tmp_char.position = {x: mat_move[3].x, y: mat_move[3].y};
-
-  plot_web_topology(map_topology,char_obj);
-  console.log(tmp_char.position)
-
+  main()
 </script>
 
 

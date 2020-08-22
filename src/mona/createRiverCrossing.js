@@ -1,4 +1,20 @@
-function createRiverCrossing(s,d_b) {
+const {
+  size_map,
+  perc_river,
+  dist_bridge,
+  index_river,
+  index_bridge,
+  player_start,
+  number_players,
+  player_border,
+  getRandomInt,
+  map_topology,
+  river_coord,
+  map_movement,
+  map_player
+} = require('./var_global_init')
+
+module.exports.createRiverCrossing = function createRiverCrossing(s,d_b) {
 // bridges are marked in map_topology with idx_bridge
 // players can cross the river over bridges (map_movement changed to 1)
 // s = size_map; d_b = dist_bridge;

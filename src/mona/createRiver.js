@@ -1,4 +1,20 @@
-function createRiver(s,win_river) {
+const {
+  getRandomInt,
+  size_map,
+  perc_river,
+  dist_bridge,
+  index_river,
+  index_bridge,
+  player_start,
+  number_players,
+  player_border,
+  map_topology,
+  river_coord,
+  map_movement,
+  map_player
+} = require('./var_global_init')
+
+module.exports.createRiver = function createRiver(s,win_river) {
 // rivers are marked in map_topology with idx_river
 // players cannot walk on river (map_movement changed to 0)
 // s = size_map; p_r = perc_river;
@@ -34,14 +50,7 @@ function createRiver(s,win_river) {
 
 }
 
-
-function getRandomInt(min, max){
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function next_river(river_x,river_y,b1,b2){
+const next_river = module.exports.next_river = function next_river(river_x,river_y,b1,b2){
   river_x = river_x + 1;
 
   rn2 = Math.random();
@@ -66,7 +75,7 @@ function next_river(river_x,river_y,b1,b2){
 
 }
 
-function next_river_prev(river_x,river_y){
+module.exports.next_river_prev = function next_river_prev(river_x,river_y){
   river_x = river_x + 1;
 
   if(river_y == 0){
