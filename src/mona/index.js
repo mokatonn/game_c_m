@@ -31,7 +31,7 @@ const { plot_web_topology } = require('./visualise_web')
 const isInBrowser = typeof window !== 'undefined'
 const exportingObject = isInBrowser ? window : module.exports
 
-exportingObject.createMap = function createMap () {
+function createMap () {
   var p1 = player_initialise(1000,"CVPI","Sumo");
   var p2 = player_initialise(2000,"MKT","Witch");
   var p3 = player_initialise(3000,"SSA","Knight");
@@ -68,8 +68,6 @@ exportingObject.createMap = function createMap () {
   var mat_move = getPossibleMoves(tmp_char);
   console.log(tmp_char.position)
 
-  plot_web_topology(map_topology,char_obj,mat_move);
-
   tmp_char.position = {x: mat_move[3].x, y: mat_move[3].y};
 
   console.log(tmp_char.position)
@@ -77,9 +75,13 @@ exportingObject.createMap = function createMap () {
   return char_obj
 }
 
-if (isInBrowser) {
+if (typeof window !== 'undefined') {
+  window.createMap = createMap
   window.plot = function(char_obj){
     console.log('plotting map')
     plot_web_topology(map_topology,char_obj);
   }
+}
+if (typeof module !== 'undefined') {
+  module.exports.createMap = createMap
 }
