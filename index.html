@@ -62,7 +62,7 @@
   var tmp_char = char_obj[3];
   console.log(tmp_char.position)
 
-  var mat_move = possibleMove(size_map,tmp_char);
+  var mat_move = getPossibleMoves(tmp_char);
   console.log(tmp_char.position)
 
   plot_web_topology(map_topology,char_obj,mat_move);
