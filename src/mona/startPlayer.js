@@ -1,4 +1,21 @@
-function spawnPlayer(players,s,w_r,p_b){
+const {
+  getRandomInt,
+  size_map,
+  perc_river,
+  dist_bridge,
+  index_river,
+  index_bridge,
+  player_start,
+  number_players,
+  player_border,
+  map_topology,
+  river_coord,
+  map_movement,
+  map_player
+} = require('./var_global_init')
+
+
+module.exports.spawnPlayer = function spawnPlayer(players,s,w_r,p_b){
 // determine the starting position of each players
 // players have a specific distance to the borders (p_b)
 // players are not located in the river area (w_r)
@@ -79,7 +96,7 @@ function spawnPlayer(players,s,w_r,p_b){
 
 }
 
-function spawnPlayerTEST(players,s,w_r,p_b){
+module.exports.spawnPlayerTEST = function spawnPlayerTEST(players,s,w_r,p_b){
 // determine the starting position of each players
 // players have a specific distance to the borders (p_b)
 // players are not located in the river area (w_r)
@@ -138,7 +155,7 @@ function spawnPlayerTEST(players,s,w_r,p_b){
 
 }
 
-function posInit(plOj){
+module.exports.posInit = function posInit(plOj){
 
   var i;
   var i1;

@@ -1,3 +1,20 @@
+const {
+    getRandomInt,
+    size_map,
+    perc_river,
+    dist_bridge,
+    index_river,
+    index_bridge,
+    player_start,
+    number_players,
+    player_border,
+    map_topology,
+    river_coord,
+    map_movement,
+    map_player
+} = require('./var_global_init')
+
+
 const defaultOptions = {
     playerColor: {
         MKT: 'yellow',
@@ -38,7 +55,7 @@ const defaultMovements = [
     { x: 0, y: 0, type: 'movement' }
 ]
 
-function plot_web_topology(matrix, characters = defaultCharacters, movements = defaultMovements, options = defaultOptions){
+module.exports.plot_web_topology = function plot_web_topology(matrix, characters = defaultCharacters, movements = defaultMovements, options = defaultOptions){
 
 
   // set the dimensions and margins of the graph

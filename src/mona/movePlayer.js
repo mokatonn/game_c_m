@@ -1,3 +1,20 @@
+const {
+  size_map,
+  perc_river,
+  dist_bridge,
+  index_river,
+  index_bridge,
+  player_start,
+  number_players,
+  player_border,
+  getRandomInt,
+  map_topology,
+  river_coord,
+  map_movement,
+  map_player
+} = require('./var_global_init')
+
+
 /** getPossibleMoves 
 
   returns a list with all possible movements of a character
@@ -7,7 +24,7 @@
 
 */
 
-function getPossibleMoves (character){
+module.exports.getPossibleMoves = function getPossibleMoves (character){
   const x = character.position.x
   const y = character.position.y
 
@@ -16,6 +33,6 @@ function getPossibleMoves (character){
     const isOtherPlayer = map_player[x][y] && map_player[x][y].playerId !== character.playerId
     if (isOutOfBounds || !map_movement[x][y]) return acc
     const moveType = isOtherPlayer ? 'attack' : 'movement'
-    return acc.concat({x: move.x, y: move.y, type: moveType})
+    return acc.concat({x, y, type: moveType})
   }, [{x, y, type: 'current'}])
 }

@@ -1,6 +1,23 @@
+const {
+  getRandomInt,
+  size_map,
+  perc_river,
+  dist_bridge,
+  index_river,
+  index_bridge,
+  player_start,
+  number_players,
+  player_border,
+  map_topology,
+  river_coord,
+  map_movement,
+  map_player
+} = require('./var_global_init')
+
+
 // everything that concerns the initialisation of players and characters
 
-function player_initialise(id,name,char){
+module.exports.player_initialise = function player_initialise(id,name,char){
 
   var charset_special = {};
   charset_special.type = char;
