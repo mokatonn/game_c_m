@@ -15,7 +15,7 @@ const {
 } = require('./var_global_init')
 
 
-/** getPossibleMoves 
+/** getPossibleMoves
 
   returns a list with all possible movements of a character
 
@@ -35,4 +35,51 @@ module.exports.getPossibleMoves = function getPossibleMoves (character){
     const moveType = isOtherPlayer ? 'attack' : 'movement'
     return acc.concat({x, y, type: moveType})
   }, [{x, y, type: 'current'}])
+}
+
+
+module.exports.resolvePlayerFight = function resolvePlayerFight (characterAttack, characterDefend){
+
+  //console.log(characterAttack)
+  //console.log(characterDefend)
+  const char1 = characterAttack.type;
+  const char2 = characterDefend.type;
+  const r = Math.random(); //console.log(r)
+  const fight = {};
+
+  const success_fight = {
+    Villager : {
+      Villager: 0.6,
+      Sumo: 0.2,
+      Witch: 0.3,
+      Knight: 0.3
+    },
+    Sumo: {
+      Villager: 0.8,
+      Sumo: 0.6,
+      Witch: 0.8,
+      Knight: 0.8
+    },
+    Witch: {
+      Villager: 0.8,
+      Sumo: 0.6,
+      Witch: 0.6,
+      Knight: 0.8
+    },
+    Knight: {
+      Villager: 0.8,
+      Sumo: 0.6,
+      Witch: 0.6,
+      Knight: 0.6
+    }
+  }
+
+  if(r < success_fight[char1][char2]){// attacker wins
+    fight.winner = characterAttack;
+    fight.loser = characterDefend;
+  }else{// attacker loses
+    fight.winner = characterDefend;
+    fight.loser = characterAttack;
+  }
+  return fight;
 }

@@ -4,7 +4,10 @@ const {
 	next_river_prev
 } = require('./createRiver')
 const { createRiverCrossing } = require('./createRiverCrossing')
-const { getPossibleMoves } = require('./movePlayer')
+const {
+	getPossibleMoves,
+	resolvePlayerFight
+} = require('./movePlayer')
 const { player_initialise } = require('./player_info')
 const {
 	spawnPlayer,
@@ -32,6 +35,7 @@ const isInBrowser = typeof window !== 'undefined'
 const exportingObject = isInBrowser ? window : module.exports
 
 function createMap () {
+	/*watchify ./src/mona/index.js -o ./browser/index.js */
   var p1 = player_initialise(1000,"CVPI","Sumo");
   var p2 = player_initialise(2000,"MKT","Witch");
   var p3 = player_initialise(3000,"SSA","Knight");
@@ -62,15 +66,34 @@ function createMap () {
     }
   }
 
-  var tmp_char = char_obj[3];
-  console.log(tmp_char.position)
+	var tmp_char = char_obj[3];
+	var tmp_char2 = char_obj[7];
+	var test_pos = {x: 2, y: 4};
+	map_player[test_pos.x][test_pos.y] = tmp_char2;
+	map_player[tmp_char2.position.x][tmp_char2.position.y] = 0;
+
+  tmp_char2.position = test_pos;
 
   var mat_move = getPossibleMoves(tmp_char);
-  console.log(tmp_char.position)
 
-  tmp_char.position = {x: mat_move[3].x, y: mat_move[3].y};
+  plot_web_topology(map_topology,char_obj,mat_move);
 
-  console.log(tmp_char.position)
+	// var move_select = 3;
+	var move_select = 2;
+	if(mat_move[move_select].type == "attack"){
+		var tmpDefend = map_player[mat_move[move_select].x ][ mat_move[move_select].y];
+		var tmp = resolvePlayerFight (tmp_char, tmpDefend);
+		map_player[mat_move[move_select].x ][ mat_move[move_select].y] = tmp.winner;
+		char_obj.splice(char_obj.indexOf(char_obj.find(obj => {return obj.id === tmp.loser.id})),1)
+
+		tmp.winner.position = {x: mat_move[move_select].x, y: mat_move[move_select].y};
+
+	}else{
+		tmp_char.position = {x: mat_move[move_select].x, y: mat_move[move_select].y};
+	}
+
+  plot_web_topology(map_topology,char_obj);
+  //console.log(tmp_char.position)
 
   return char_obj
 }
@@ -78,8 +101,8 @@ function createMap () {
 if (typeof window !== 'undefined') {
   window.createMap = createMap
   window.plot = function(char_obj){
-    console.log('plotting map')
-    plot_web_topology(map_topology,char_obj);
+    //console.log('plotting map')
+    //plot_web_topology(map_topology,char_obj);
   }
 }
 if (typeof module !== 'undefined') {
